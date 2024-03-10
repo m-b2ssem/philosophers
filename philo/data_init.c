@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 23:54:41 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/10 02:13:29 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/10 22:04:37 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool    check_argv(int argc, char **argv)
 
 }
 
-static long long	get_time(void)
+int	get_time(void)
 {
 	struct timeval	time;
 
@@ -73,26 +73,26 @@ static long long	get_time(void)
 	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
-t_rules    *init_data(t_rules *rules, int argc,char **argv)
+t_lead    *init_data(t_lead *leads, int argc,char **argv)
 {
     if (check_argv(argc, argv))
     {
-        rules->num_philos = ft_atoi(argv[1]);
-        rules->time_init = get_time();
-        rules->ttd = ft_atoi(argv[2]);
-        rules->tte = ft_atoi(argv[3]);
-        rules->tts = ft_atoi(argv[4]);
+        leads->philos_num = ft_atoi(argv[1]);
+        leads->time_init = get_time();
+        leads->time_to_die = ft_atoi(argv[2]);
+        leads->time_to_eat = ft_atoi(argv[3]);
+        leads->time_to_sleep = ft_atoi(argv[4]);
         if (argc == 6)
-            rules->mma = ft_atoi(argv[5]);
+            leads->m_meals_allowed = ft_atoi(argv[5]);
         else
-            rules->mma = -1;
-        rules->died = 0;
-        rules->all_ate = 0;
+            leads->m_meals_allowed = -1;
+        leads->died = 0;
+        leads->all_ate = 0;
         
     }
     else
-        error_message(RED"Error: Invalid arguments\n"RST);
-    return (rules);
+        error_exit(RED"Error: Invalid arguments\n"RST);
+    return (leads);
 }
 
 

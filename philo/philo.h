@@ -19,17 +19,18 @@ reaper: the mutex for the reaper
 times_ate: the number of times the philo ate
 *rules: a pointer to the t_rules struct
 */
+typedef pthread_mutex_t t_mutex;
 
 typedef struct s_philo
 {
 	int				id;
 	long long		last_meal;
 	pthread_t		philo;
-	pthread_mutex_t	*l_fork;
-	pthread_mutex_t	*r_fork;
-	pthread_mutex_t	reaper;
+	t_mutex	*l_fork;
+	t_mutex	*r_fork;
+	t_mutex	reaper;
 	int				times_ate;
-	struct s_rules	*rules;
+	struct s_lead	*leads;
 }			t_philo;
 
 /*num_philos;
@@ -46,31 +47,38 @@ monitor: thread for checking if a philo died
 *ph: a pointer to the t_philo struct
 */
 
-typedef struct s_rules
+typedef struct s_lead
 {
-	int				num_philos;
+	int				philos_num;
 	int     		time_init;
-	int				ttd;
-	int				tts;
-	int				tte;
-	int				mma;
+	int				m_meals_allowed;
+	int				time_to_die;
+	int				time_to_sleep;
+	int				time_to_eat;
 	int				died;
 	int				all_ate;
-	pthread_mutex_t	mess;
-	pthread_mutex_t	check;
+	t_mutex	mess;
+	t_mutex	checker;
 	pthread_t		monitor;
-	t_philo			*ph;
-}				t_rules;
+	t_philo			*philo;
+}				t_lead;
 
 # define RST    "\033[0m"      /* Reset to default color */
 # define RED	"\033[1;31m"   /* Bold Red */
 # define G      "\033[1;32m"   /* Bold Green */
 
+/* intilazing */
+t_lead    *init_data(t_lead *rules, int argc,char **argv);
+t_mutex *init_forks(t_lead *r, t_mutex *forks);
+t_philo *init_philos(t_lead *r, t_mutex *forks);
+
 /* utils functions */
-t_rules    *init_data(t_rules *rules, int argc,char **argv);
+void create_program(t_lead *rules);
 void    error_message(char *message);
-void	mutex_lock_and_unlock(pthread_mutex_t *mutex, int check);
+void    error_exit(char *message);
+void	mutex_lock_and_unlock(t_mutex *mutex, int check);
 void	*ft_malloc(size_t bytes);
+int	get_time(void);
 
 /* check arguments */
 bool    ft_valid_argv(char *argv);

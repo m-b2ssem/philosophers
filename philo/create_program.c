@@ -6,11 +6,43 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:52:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/10 22:08:42 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/11 15:31:26 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void    init_threads(t_lead *leads)
+{
+    int i;
+
+    i = 0;
+    while(i < leads->philos_num)
+    {
+        if (pthread_create(&leads->philo[i].philo, NULL, &simulter, &leads->philo[i]) != 0)
+            error_message(RED"error with creating the thread"RST);
+        usleep(100);
+        i++;
+    }
+    if (pthread_create(&leads->monitor, NULL, &ft_monitor, leads) != 0)
+        error_message(RED"error with creating the thread"RST);
+}
+
+void    join_threads(t_lead *leads, t_mutex *forks)
+{
+    int i;
+
+    i = 0;
+    if (pthread_join(leads->monitor, NULL) != 0)
+        error_message(RED"couldn't join the thread"RST);
+    while(i < leads->philos_num)
+    {
+        if (pthread_join(leads->philo[i].philo, NULL) != 0)
+            error_message(RED"couldn't join the thread"RST);
+        i++;
+    }
+    destroy_mutexes(leads, forks);
+}
 
 t_philo *init_philos(t_lead *leads, t_mutex *forks)
 {
@@ -64,7 +96,8 @@ void create_program(t_lead *leads)
     leads->philo = init_philos(leads, forks);
     if(leads->philo == 0)
         error_message(RED"no philosophrs was init"RST);
-    init_threads(leads, forks);
+    init_threads(leads);
+    join_threads(leads, forks);
     free(forks);
     free(leads->philo);
     return ;

@@ -26,9 +26,9 @@ typedef struct s_philo
 	int				id;
 	long long		last_meal;
 	pthread_t		philo;
-	t_mutex	*l_fork;
-	t_mutex	*r_fork;
-	t_mutex	reaper;
+	t_mutex			*l_fork;
+	t_mutex			*r_fork;
+	t_mutex			reaper;
 	int				times_ate;
 	struct s_lead	*leads;
 }			t_philo;
@@ -57,8 +57,8 @@ typedef struct s_lead
 	int				time_to_eat;
 	int				died;
 	int				all_ate;
-	t_mutex	mess;
-	t_mutex	checker;
+	t_mutex			mess;
+	t_mutex			checker;
 	pthread_t		monitor;
 	t_philo			*philo;
 }				t_lead;
@@ -68,26 +68,33 @@ typedef struct s_lead
 # define G      "\033[1;32m"   /* Bold Green */
 
 /* intilazing */
-t_lead    *init_data(t_lead *rules, int argc,char **argv);
-t_mutex *init_forks(t_lead *r, t_mutex *forks);
-t_philo *init_philos(t_lead *r, t_mutex *forks);
+t_lead		*init_data(t_lead *rules, int argc,char **argv);
+t_mutex		*init_forks(t_lead *r, t_mutex *forks);
+t_philo		*init_philos(t_lead *r, t_mutex *forks);
+void		join_threads(t_lead *leads, t_mutex *forks);
+void		init_threads(t_lead *leads);
+
 
 /* utils functions */
-void create_program(t_lead *rules);
-void    error_message(char *message);
-void    error_exit(char *message);
+void	create_program(t_lead *rules);
+void	error_message(char *message);
+void	error_exit(char *message);
 void	mutex_lock_and_unlock(t_mutex *mutex, int check);
 void	*ft_malloc(size_t bytes);
-int	get_time(void);
+int		get_time(void);
+void    destroy_mutexes(t_lead *leads, t_mutex *forks);
 
 /* check arguments */
 bool    ft_valid_argv(char *argv);
 bool    check_argv(int argc, char **argv);
 bool    check_overflow(char *argv);
 
+/*  monitor */
+void    *ft_monitor(void *argv);
+void    *simulter(void *argv);
 
 /* libft functions*/
-int	ft_isdigit(int c);
-int	ft_atoi(const char *str);
+int		ft_isdigit(int c);
+int		ft_atoi(const char *str);
 
 #endif

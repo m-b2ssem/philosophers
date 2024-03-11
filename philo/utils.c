@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 23:41:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/10 18:57:38 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/11 15:30:33 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,21 @@ void	mutex_lock_and_unlock(pthread_mutex_t *mutex, int check)
 		if (pthread_mutex_unlock(mutex) != 0)
 			error_message("error with unlocking mutex\n");
 	}
+}
+
+void    destroy_mutexes(t_lead *leads, t_mutex *forks)
+{
+    int i;
+
+    i = 0;
+    if (pthread_mutex_destroy(&leads->mess) != 0)
+        error_message(RED"couldn't destroy message"RST);
+    while (i < leads->philos_num)
+    {
+        if (pthread_mutex_destroy(&leads->philo[i].reaper) != 0)
+            error_message(RED"couldn't destroy reaper"RST);
+        if (pthread_mutex_destroy(&forks[i]) != 0)
+            error_message(RED"couldn't destroy the forks"RST);
+    }
 }
     

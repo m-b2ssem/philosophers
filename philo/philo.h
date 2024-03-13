@@ -25,7 +25,7 @@ typedef struct s_philo
 {
 	int				id;
 	long long		last_meal;
-	pthread_t		philo;
+	pthread_t		philo; // read more about it
 	t_mutex			*l_fork;
 	t_mutex			*r_fork;
 	t_mutex			reaper;
@@ -91,7 +91,7 @@ bool    check_overflow(char *argv);
 
 /*  monitor */
 void    *ft_monitor(void *argv);
-void    *simulter(void *argv);
+void    *start_simulation(void *argv);
 
 /* libft functions*/
 int		ft_isdigit(int c);

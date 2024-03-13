@@ -6,14 +6,14 @@
 #    By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/09 17:37:19 by bmahdi            #+#    #+#              #
-#    Updated: 2024/03/11 15:38:22 by bmahdi           ###   ########.fr        #
+#    Updated: 2024/03/12 03:56:57 by bmahdi           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-SRC = philo.c data_init.c utils.c libft.c create_program.c monitor.c
+SRC = philo.c data_init.c utils.c libft.c create_program.c monitor.c  simulation.c
 
 OBJ = $(SRC:.c=.o)
 

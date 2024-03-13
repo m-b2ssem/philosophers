@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:52:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/11 15:31:26 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/12 03:55:42 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    init_threads(t_lead *leads)
     i = 0;
     while(i < leads->philos_num)
     {
-        if (pthread_create(&leads->philo[i].philo, NULL, &simulter, &leads->philo[i]) != 0)
+        if (pthread_create(&leads->philo[i].philo, NULL, &start_simulation, &leads->philo[i]) != 0)
             error_message(RED"error with creating the thread"RST);
         usleep(100);
         i++;

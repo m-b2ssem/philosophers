@@ -6,13 +6,13 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 21:43:07 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/10 23:32:30 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/13 01:42:05 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	join_threads(t_lead *leads, pthread_mutex_t *forks)
+/*void	join_threads(t_lead *leads, pthread_mutex_t *forks)
 {
 	int	i;
 
@@ -42,12 +42,12 @@ void	create_threads(t_lead *leads)
 	i = 0;
 	while (i < leads->philos_num)
 	{
-		if (pthread_create(&leads->philo[i].philo, NULL, &simulater, &leads->philo[i]) != 0)
+		if (pthread_create(&leads->philo[i].philo, NULL, &start_simulation, &leads->philo[i]) != 0)
 			error_message("Couldn't create thread!\n");
 		usleep(100);
 		i++;
 	}
-	if (pthread_create(&leads->monitor, NULL, &monitor, leads) != 0)
+	if (pthread_create(&leads->monitor, NULL, &ft_monitor, leads) != 0)
 		error_message("Couldn't create thread!\n");
 }
 
@@ -56,4 +56,6 @@ void    init_threads(t_lead *rules, t_mutex *forks)
     create_threads(rules);
     join_threads(rules, forks);
 }
+
+/*
 

@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 23:41:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/13 01:36:56 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/14 00:42:10 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    error_message(char *message)
     i = 0;
     while (message[i])
     {
-        write(2, &message[i], 1);
+        write(1, &message[i], 1);
         i++;
     }
     return ;
@@ -48,7 +48,7 @@ void	*ft_malloc(size_t bytes)
 	return (mal);
 }
 
-void	mutex_lock_and_unlock(t_mutex *mutex, int check)
+void	ft_mutex_lock_and_unlock(t_mutex *mutex, int check)
 {
 	if (check == 'l')
 	{

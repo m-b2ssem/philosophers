@@ -6,13 +6,13 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:52:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/12 03:55:42 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/14 01:26:38 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void    init_threads(t_lead *leads)
+static void    init_threads(t_lead *leads)
 {
     int i;
 
@@ -28,7 +28,7 @@ void    init_threads(t_lead *leads)
         error_message(RED"error with creating the thread"RST);
 }
 
-void    join_threads(t_lead *leads, t_mutex *forks)
+static void    join_threads(t_lead *leads, t_mutex *forks)
 {
     int i;
 
@@ -44,7 +44,7 @@ void    join_threads(t_lead *leads, t_mutex *forks)
     destroy_mutexes(leads, forks);
 }
 
-t_philo *init_philos(t_lead *leads, t_mutex *forks)
+static t_philo *init_philos(t_lead *leads, t_mutex *forks)
 {
     int i;
 
@@ -61,12 +61,10 @@ t_philo *init_philos(t_lead *leads, t_mutex *forks)
 			error_message("failed to init mutex!\n");
 		i++;
 	}
-	return (leads->philo);
-    
-    
+	return (leads->philo);   
 }
 
-t_mutex *init_forks(t_lead *leads, t_mutex *forks)
+static t_mutex *init_forks(t_lead *leads, t_mutex *forks)
 {
     int i;
 

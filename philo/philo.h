@@ -50,7 +50,7 @@ monitor: thread for checking if a philo died
 typedef struct s_lead
 {
 	int				philos_num;
-	int     		time_init;
+	long long     		time_init;
 	int				m_meals_allowed;
 	int				time_to_die;
 	int				time_to_sleep;
@@ -69,19 +69,20 @@ typedef struct s_lead
 
 /* intilazing */
 t_lead		*init_data(t_lead *rules, int argc,char **argv);
-t_mutex		*init_forks(t_lead *r, t_mutex *forks);
-t_philo		*init_philos(t_lead *r, t_mutex *forks);
-void		join_threads(t_lead *leads, t_mutex *forks);
-void		init_threads(t_lead *leads);
+void	ft_message(char *messa, t_philo *ph);
+int    one_philo(t_philo *ph);
+int check_philo_status_eating(t_philo *philo);
+int check_philo_status(t_philo *philo);
+
 
 
 /* utils functions */
 void	create_program(t_lead *rules);
 void	error_message(char *message);
 void	error_exit(char *message);
-void	mutex_lock_and_unlock(t_mutex *mutex, int check);
+void	ft_mutex_lock_and_unlock(t_mutex *mutex, int check);
 void	*ft_malloc(size_t bytes);
-int		get_time(void);
+long long	get_time(void);
 void    destroy_mutexes(t_lead *leads, t_mutex *forks);
 
 /* check arguments */

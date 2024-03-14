@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 23:54:41 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/10 22:04:37 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/13 23:20:49 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool    check_argv(int argc, char **argv)
 
 }
 
-int	get_time(void)
+long long	get_time(void)
 {
 	struct timeval	time;
 
@@ -78,16 +78,15 @@ t_lead    *init_data(t_lead *leads, int argc,char **argv)
     if (check_argv(argc, argv))
     {
         leads->philos_num = ft_atoi(argv[1]);
-        leads->time_init = get_time();
         leads->time_to_die = ft_atoi(argv[2]);
         leads->time_to_eat = ft_atoi(argv[3]);
         leads->time_to_sleep = ft_atoi(argv[4]);
+        leads->m_meals_allowed = -1;
         if (argc == 6)
             leads->m_meals_allowed = ft_atoi(argv[5]);
-        else
-            leads->m_meals_allowed = -1;
         leads->died = 0;
         leads->all_ate = 0;
+        leads->time_init = get_time();
         
     }
     else

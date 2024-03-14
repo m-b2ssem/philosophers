@@ -6,49 +6,50 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:52:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 01:26:38 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/14 21:51:04 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void    init_threads(t_lead *leads)
+static	void	init_threads(t_lead *leads)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while(i < leads->philos_num)
-    {
-        if (pthread_create(&leads->philo[i].philo, NULL, &start_simulation, &leads->philo[i]) != 0)
-            error_message(RED"error with creating the thread"RST);
-        usleep(100);
-        i++;
-    }
-    if (pthread_create(&leads->monitor, NULL, &ft_monitor, leads) != 0)
-        error_message(RED"error with creating the thread"RST);
+	i = 0;
+	while (i < leads->philos_num)
+	{
+		if (pthread_create(&leads->philo[i].philo, NULL,
+				&start_simulation, &leads->philo[i]) != 0)
+			error_message(RED"error with creating the thread"RST);
+		usleep(100);
+		i++;
+	}
+	if (pthread_create(&leads->monitor, NULL, &ft_monitor, leads) != 0)
+		error_message(RED"error with creating the thread"RST);
 }
 
-static void    join_threads(t_lead *leads, t_mutex *forks)
+static	void	join_threads(t_lead *leads, t_mutex *forks)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (pthread_join(leads->monitor, NULL) != 0)
-        error_message(RED"couldn't join the thread"RST);
-    while(i < leads->philos_num)
-    {
-        if (pthread_join(leads->philo[i].philo, NULL) != 0)
-            error_message(RED"couldn't join the thread"RST);
-        i++;
-    }
-    destroy_mutexes(leads, forks);
+	i = 0;
+	if (pthread_join(leads->monitor, NULL) != 0)
+		error_message(RED"couldn't join the thread"RST);
+	while (i < leads->philos_num)
+	{
+		if (pthread_join(leads->philo[i].philo, NULL) != 0)
+			error_message(RED"couldn't join the thread"RST);
+		i++;
+	}
+	destroy_mutexes(leads, forks);
 }
 
-static t_philo *init_philos(t_lead *leads, t_mutex *forks)
+static	t_philo	*init_philos(t_lead *leads, t_mutex *forks)
 {
-    int i;
+	int	i;
 
-    i = 0;
+	i = 0;
 	while (i < leads->philos_num)
 	{
 		leads->philo[i].id = i + 1;
@@ -61,42 +62,42 @@ static t_philo *init_philos(t_lead *leads, t_mutex *forks)
 			error_message("failed to init mutex!\n");
 		i++;
 	}
-	return (leads->philo);   
+	return (leads->philo);
 }
 
-static t_mutex *init_forks(t_lead *leads, t_mutex *forks)
+static	t_mutex	*init_forks(t_lead *leads, t_mutex *forks)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (i < leads->philos_num)
-    {
-        if (pthread_mutex_init(&forks[i], NULL) != 0)
-            error_message(RED"error with init mutex"RST);
-        i++;
-    }
-    if (pthread_mutex_init(&leads->checker, NULL) != 0)
-        error_message(RED"error with init mutex"RST);
-    if (pthread_mutex_init(&leads->mess, NULL) != 0)
-        error_message(RED"error with init mutex"RST);
-    return (forks);
+	i = 0;
+	while (i < leads->philos_num)
+	{
+		if (pthread_mutex_init(&forks[i], NULL) != 0)
+			error_message(RED"error with init mutex"RST);
+		i++;
+	}
+	if (pthread_mutex_init(&leads->checker, NULL) != 0)
+		error_message(RED"error with init mutex"RST);
+	if (pthread_mutex_init(&leads->mess, NULL) != 0)
+		error_message(RED"error with init mutex"RST);
+	return (forks);
 }
 
-void create_program(t_lead *leads)
+void	create_program(t_lead *leads)
 {
-    t_mutex *forks;
-    
-    forks = ft_malloc(sizeof(t_mutex) * leads->philos_num);
-    leads->philo = ft_malloc(sizeof(t_philo) * leads->philos_num);
-    forks = init_forks(leads, forks);
-    if (!forks)
-        error_message(RED"no forks was init"RST);
-    leads->philo = init_philos(leads, forks);
-    if(leads->philo == 0)
-        error_message(RED"no philosophrs was init"RST);
-    init_threads(leads);
-    join_threads(leads, forks);
-    free(forks);
-    free(leads->philo);
-    return ;
+	t_mutex	*forks;
+
+	forks = ft_malloc(sizeof(t_mutex) * leads->philos_num);
+	leads->philo = ft_malloc(sizeof(t_philo) * leads->philos_num);
+	forks = init_forks(leads, forks);
+	if (!forks)
+		error_message(RED"no forks was init"RST);
+	leads->philo = init_philos(leads, forks);
+	if (leads->philo == 0)
+		error_message(RED"no philosophrs was init"RST);
+	init_threads(leads);
+	join_threads(leads, forks);
+	free(forks);
+	free(leads->philo);
+	return ;
 }

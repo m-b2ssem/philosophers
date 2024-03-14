@@ -6,36 +6,36 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 23:41:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 00:42:10 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/14 22:09:48 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void    error_message(char *message)
+void	error_message(char *message)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (message[i])
-    {
-        write(1, &message[i], 1);
-        i++;
-    }
-    return ;
+	i = 0;
+	while (message[i])
+	{
+		write(1, &message[i], 1);
+		i++;
+	}
+	return ;
 }
 
-void    error_exit(char *message)
+void	error_exit(char *message)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (message[i])
-    {
-        write(2, &message[i], 1);
-        i++;
-    }
-    exit(1);
+	i = 0;
+	while (message[i])
+	{
+		write(2, &message[i], 1);
+		i++;
+	}
+	exit(1);
 }
 
 void	*ft_malloc(size_t bytes)
@@ -62,20 +62,19 @@ void	ft_mutex_lock_and_unlock(t_mutex *mutex, int check)
 	}
 }
 
-void    destroy_mutexes(t_lead *leads, t_mutex *forks)
+void	destroy_mutexes(t_lead *leads, t_mutex *forks)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (pthread_mutex_destroy(&leads->checker) != 0)
-        error_message(RED"couldn't destroy message"RST);
-    while (i < leads->philos_num)
-    {
-        if (pthread_mutex_destroy(&leads->philo[i].reaper) != 0)
-            error_message(RED"couldn't destroy reaper"RST);
-        if (pthread_mutex_destroy(&forks[i]) != 0)
-            error_message(RED"couldn't destroy the forks"RST);
-        i++;
-    }
+	i = 0;
+	if (pthread_mutex_destroy(&leads->checker) != 0)
+		error_message(RED"couldn't destroy message"RST);
+	while (i < leads->philos_num)
+	{
+		if (pthread_mutex_destroy(&leads->philo[i].reaper) != 0)
+			error_message(RED"couldn't destroy reaper"RST);
+		if (pthread_mutex_destroy(&forks[i]) != 0)
+			error_message(RED"couldn't destroy the forks"RST);
+		i++;
+	}
 }
-    

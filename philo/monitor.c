@@ -6,60 +6,59 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:22:18 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 00:47:01 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/14 22:30:30 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	philos_died(t_lead *rules)
+static int	ft_died(t_lead *leads)
 {
 	int	i;
 
 	i = 0;
-	while (i < rules->philos_num)
+	while (i < leads->philos_num)
 	{
-		ft_mutex_lock_and_unlock(&rules->philo[i].reaper, 'l');
-		if ((get_time() - rules->philo[i].last_meal) > rules->time_to_die)
+		ft_mutex_lock_and_unlock(&leads->philo[i].reaper, 'l');
+		if ((get_time() - leads->philo[i].last_meal) > leads->time_to_die)
 		{
-			ft_message("died\n", &rules->philo[i]);
-            ft_mutex_lock_and_unlock(&rules->checker, 'l');
-			rules->died = 1;
-			ft_mutex_lock_and_unlock(&rules->checker, 'u');
-			ft_mutex_lock_and_unlock(&rules->philo[i].reaper, 'u');
+			ft_message("died\n", &leads->philo[i]);
+			ft_mutex_lock_and_unlock(&leads->checker, 'l');
+			leads->died = 1;
+			ft_mutex_lock_and_unlock(&leads->checker, 'u');
+			ft_mutex_lock_and_unlock(&leads->philo[i].reaper, 'u');
 			return (1);
 		}
-		ft_mutex_lock_and_unlock(&rules->philo[i].reaper, 'u');
+		ft_mutex_lock_and_unlock(&leads->philo[i].reaper, 'u');
 		i++;
 	}
 	return (0);
 }
 
-static int	philos_ate(t_lead *rules)
+static int	ft_ate(t_lead *leads)
 {
-	if (rules->m_meals_allowed == -1)
+	if (leads->m_meals_allowed == -1)
 		return (0);
-	ft_mutex_lock_and_unlock(&rules->checker, 'l');
-	if (rules->all_ate == rules->philos_num)
+	ft_mutex_lock_and_unlock(&leads->checker, 'l');
+	if (leads->all_ate == leads->philos_num)
 	{
-		ft_mutex_lock_and_unlock(&rules->checker, 'u');
+		ft_mutex_lock_and_unlock(&leads->checker, 'u');
 		return (1);
 	}
-	ft_mutex_lock_and_unlock(&rules->checker, 'u');
+	ft_mutex_lock_and_unlock(&leads->checker, 'u');
 	return (0);
 }
 
 void	*ft_monitor(void *arg)
 {
-	t_lead	*rules;
+	t_lead	*leads;
 
-	rules = (t_lead *)arg;
+	leads = (t_lead *)arg;
 	while (1)
 	{
-		if (philos_died(rules))
+		if (ft_died(leads))
 			return (NULL);
-		if (philos_ate(rules))
+		if (ft_ate(leads))
 			return (NULL);
 	}
 }
-

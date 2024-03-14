@@ -6,13 +6,13 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 01:00:19 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 00:48:44 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/14 21:35:55 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int check_philo_status_eating(t_philo *philo)
+int	check_philo_status_eating(t_philo *philo)
 {
 	ft_mutex_lock_and_unlock(&philo->leads->checker, 'l');
 	if (philo->leads->died == 1
@@ -24,10 +24,10 @@ int check_philo_status_eating(t_philo *philo)
 		return (1);
 	}
 	ft_mutex_lock_and_unlock(&philo->leads->checker, 'u');
-    return (0);
+	return (0);
 }
 
-int check_philo_status(t_philo *philo)
+int	check_philo_status(t_philo *philo)
 {
 	ft_mutex_lock_and_unlock(&philo->leads->checker, 'l');
 	if (philo->leads->died == 1
@@ -37,16 +37,15 @@ int check_philo_status(t_philo *philo)
 		return (1);
 	}
 	ft_mutex_lock_and_unlock(&philo->leads->checker, 'u');
-    return (0);
+	return (0);
 }
 
-
-int    one_philo(t_philo *ph)
+int	one_philo(t_philo *ph)
 {
-    ft_mutex_lock_and_unlock(ph->l_fork, 'l');
-    ft_message("has taken a fork\n", ph);
-    ft_mutex_lock_and_unlock(ph->l_fork, 'u');
-    return (1);
+	ft_mutex_lock_and_unlock(ph->l_fork, 'l');
+	ft_message("has taken a fork\n", ph);
+	ft_mutex_lock_and_unlock(ph->l_fork, 'u');
+	return (1);
 }
 
 void	ft_message(char *messa, t_philo *ph)

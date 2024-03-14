@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 03:32:26 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 00:45:13 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/14 22:06:25 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	sleeping(t_philo *philo)
 {
 	if (check_philo_status(philo))
-		return(1);
+		return (1);
 	ft_message("is sleeping\n", philo);
 	usleep(philo->leads->time_to_sleep * 1000);
 	return (0);
@@ -24,7 +24,7 @@ static int	sleeping(t_philo *philo)
 static int	thinking(t_philo *philo)
 {
 	if (check_philo_status(philo))
-		return(1);
+		return (1);
 	ft_message("is thinking\n", philo);
 	return (0);
 }
@@ -32,13 +32,14 @@ static int	thinking(t_philo *philo)
 static int	eating(t_philo *philo)
 {
 	if (check_philo_status_eating(philo))
-		return(1);
+		return (1);
 	ft_mutex_lock_and_unlock(&philo->reaper, 'l');
 	philo->last_meal = get_time();
 	ft_message("is eating\n", philo);
 	ft_mutex_lock_and_unlock(&philo->leads->checker, 'l');
 	philo->times_ate++;
-	if (philo->leads->m_meals_allowed != -1 && philo->times_ate == philo->leads->m_meals_allowed)
+	if (philo->leads->m_meals_allowed != -1 && philo->times_ate
+		== philo->leads->m_meals_allowed)
 		philo->leads->all_ate++;
 	ft_mutex_lock_and_unlock(&philo->leads->checker, 'u');
 	ft_mutex_lock_and_unlock(&philo->reaper, 'u');
@@ -51,7 +52,7 @@ static int	eating(t_philo *philo)
 static int	take_forks(t_philo *philo)
 {
 	if (check_philo_status(philo))
-		return(1);
+		return (1);
 	if (philo->id % 2)
 	{
 		ft_mutex_lock_and_unlock(philo->l_fork, 'l');

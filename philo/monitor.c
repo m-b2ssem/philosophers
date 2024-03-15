@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/11 15:22:18 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 22:30:30 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/15 19:50:57 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	*ft_monitor(void *arg)
 	leads = (t_lead *)arg;
 	while (1)
 	{
+		//usleep(100);
 		if (ft_died(leads))
 			return (NULL);
 		if (ft_ate(leads))

@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:13:02 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 22:26:40 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/15 20:22:58 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_lead
 	t_mutex			checker;
 	pthread_t		monitor;
 	t_philo			*philo;
+	int b;
 }		t_lead;
 
 # define RST    "\033[0m"      /* Reset to default color */

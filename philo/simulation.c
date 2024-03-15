@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 03:32:26 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 22:06:25 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/15 21:17:20 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,16 @@ void	*start_simulation(void *arg)
 	if (philo->leads->philos_num == 1)
 		if (one_philo(philo))
 			return (NULL);
+	if (!(philo->id % 2))
+		usleep(philo->leads->time_to_eat * 1000 / 2);
+	// check death
+	if (check_philo_status(philo))
+		return (NULL);
 	while (1)
 	{
+		if ((philo->leads->philos_num % 2) && (philo->id == philo->leads->philos_num))
+			usleep(philo->leads->time_to_eat * 1000 + 100);
+		// if odd: last one sleeps here eattime + 100 microseconds 
 		if (take_forks(philo))
 			return (NULL);
 		if (eating(philo))
@@ -88,6 +96,9 @@ void	*start_simulation(void *arg)
 			return (NULL);
 		if (thinking(philo))
 			return (NULL);
+		if ((philo->leads->philos_num % 2) && (philo->id != philo->leads->philos_num))
+			usleep(philo->leads->time_to_eat * 1000 + 100);
+		// IF odd: all other sleep here eattime + 100 microseconds
 	}
 	return (NULL);
 }

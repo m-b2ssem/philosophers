@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 23:41:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 22:09:48 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/15 20:00:56 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	error_exit(char *message)
 		write(2, &message[i], 1);
 		i++;
 	}
-	exit(1);
+	//exit(1);
 }
 
 void	*ft_malloc(size_t bytes)

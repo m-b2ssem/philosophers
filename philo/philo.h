@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:13:02 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/16 01:05:08 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/16 15:31:35 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_lead
 	t_mutex			checker;
 	pthread_t		monitor;
 	t_philo			*philo;
-	int b;
+	int				b;
 }		t_lead;
 
 # define RST    "\033[0m"      /* Reset to default color */
@@ -94,6 +94,8 @@ void		ft_mutex_lock_and_unlock(t_mutex *mutex, int check);
 void		*ft_malloc(size_t bytes);
 long long	get_time(void);
 void		destroy_mutexes(t_lead *leads, t_mutex *forks);
+void		init_monitor(t_lead *leads, int i);
+int			init_checker_mess(t_lead *leads);
 
 /* check arguments */
 bool		ft_valid_argv(char *argv);

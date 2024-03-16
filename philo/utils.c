@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 23:41:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/15 23:23:05 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/16 15:30:17 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,20 @@ void	error_message(char *message)
 	return ;
 }
 
-
-void	*ft_malloc(size_t bytes)
+int	init_checker_mess(t_lead *leads)
 {
-	void	*mal;
-
-	mal = malloc(bytes);
-	if (mal == NULL)
-		error_message("Error with the malloc");
-	return (mal);
+	if (pthread_mutex_init(&leads->checker, NULL) != 0)
+	{
+		error_message(RED"error with init mutex"RST);
+		return (1);
+	}
+	if (pthread_mutex_init(&leads->mess, NULL) != 0)
+	{
+		pthread_mutex_destroy(&leads->checker);
+		error_message(RED"error with init mutex"RST);
+		return (1);
+	}
+	return (0);
 }
 
 void	ft_mutex_lock_and_unlock(t_mutex *mutex, int check)

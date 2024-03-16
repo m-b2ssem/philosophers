@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/10 17:52:09 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/16 01:04:51 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/16 15:29:31 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,41 +18,22 @@ static	void	init_threads(t_lead *leads)
 
 	leads->b = leads->philos_num;
 	i = 0;
-	// lock die
 	pthread_mutex_lock(&leads->checker);
 	while (i < leads->philos_num)
 	{
-		// if(i == 5)
-		// {
-		// 	leads->died = 1;
-		// 	leads->philos_num = i;
-		// 	error_message(RED"error with creating the thread"RST);
-		// 	break;
-		// }
 		if (pthread_create(&leads->philo[i].philo, NULL,
 				&start_simulation, &leads->philo[i]) != 0)
 		{
 			error_message(RED"error with creating the thread"RST);
-			// leads->num = i;
 			leads->philos_num = i;
-			// die = 1
 			leads->died = 1;
-			break;
+			break ;
 		}
-		//usleep(100);
 		i++;
 	}
-	// unlock die
 	if (leads->b == leads->philos_num)
 	{
-		if (pthread_create(&leads->monitor, NULL, &ft_monitor, leads) != 0)
-		{
-			error_message(RED"error with creating the thread nnnnnnn"RST);
-			leads->philos_num = i;
-			// die = 1
-			leads->died = 1;
-			leads->b = -1;
-		}
+		init_monitor(leads, i);
 	}
 	pthread_mutex_unlock(&leads->checker);
 }
@@ -74,7 +55,7 @@ static	void	join_threads(t_lead *leads, t_mutex *forks)
 		if (pthread_join(leads->philo[i].philo, NULL) != 0)
 		{
 			error_message(RED"couldn't join the thread11"RST);
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -106,28 +87,18 @@ static	int	init_forks(t_lead *leads, t_mutex *forks)
 	int	i;
 
 	i = 0;
-	if (pthread_mutex_init(&leads->checker, NULL) != 0)
-	{
-		error_message(RED"error with init mutex"RST);
-		return(1);
-	}
-	if (pthread_mutex_init(&leads->mess, NULL) != 0)
-	{
-		pthread_mutex_destroy(&leads->checker);
-		error_message(RED"error with init mutex"RST);
+	if (init_checker_mess(leads))
 		return (1);
-	}
 	while (i < leads->philos_num)
 	{
 		if (pthread_mutex_init(&forks[i], NULL) != 0)
 		{
 			pthread_mutex_destroy(&leads->checker);
 			pthread_mutex_destroy(&leads->mess);
-			while (i > 0 )
+			while (i > 0)
 			{
 				pthread_mutex_destroy(&forks[i--]);
 			}
-			
 			return (error_message(RED"error with init mutex"RST), 1);
 		}
 		i++;

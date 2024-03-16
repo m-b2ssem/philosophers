@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 01:00:19 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/16 01:58:13 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/16 15:30:46 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,14 @@ int	check_philo_status(t_philo *philo)
 
 int	one_philo(t_philo *ph)
 {
-	ft_mutex_lock_and_unlock(ph->l_fork, 'l');
-	ft_message("has taken a fork\n", ph);
-	ft_mutex_lock_and_unlock(ph->l_fork, 'u');
-	return (1);
+	if (ph->leads->philos_num == 1)
+	{
+		ft_mutex_lock_and_unlock(ph->l_fork, 'l');
+		ft_message("has taken a fork\n", ph);
+		ft_mutex_lock_and_unlock(ph->l_fork, 'u');
+		return (1);
+	}
+	return (0);
 }
 
 void	ft_message(char *messa, t_philo *ph)
@@ -64,4 +68,15 @@ void	ft_message(char *messa, t_philo *ph)
 	pthread_mutex_unlock(&ph->leads->mess);
 	pthread_mutex_unlock(&ph->leads->checker);
 	return ;
+}
+
+void	init_monitor(t_lead *leads, int i)
+{
+	if (pthread_create(&leads->monitor, NULL, &ft_monitor, leads) != 0)
+	{
+		error_message(RED"error with creating the thread"RST);
+		leads->philos_num = i;
+		leads->died = 1;
+		leads->b = -1;
+	}
 }

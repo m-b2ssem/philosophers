@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 03:32:26 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/16 01:05:13 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/16 15:12:09 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,26 @@ void	*start_simulation(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->leads->philos_num == 1)
-		if (one_philo(philo))
-			return (NULL);
+	if (one_philo(philo))
+		return (NULL);
 	if (!(philo->id % 2))
 		usleep(philo->leads->time_to_eat * 1000 / 2);
-	// check death
 	if (check_philo_status(philo))
 		return (NULL);
 	while (1)
 	{
-		if ((philo->leads->philos_num % 2) && (philo->id == philo->leads->philos_num))
+		if ((philo->leads->philos_num % 2
+			) && (philo->id == philo->leads->philos_num))
 			usleep(philo->leads->time_to_eat * 1000 + 100);
-		// if odd: last one sleeps here eattime + 100 microseconds 
 		if (take_forks(philo))
 			return (NULL);
 		if (eating(philo))
 			return (NULL);
-		if (sleeping(philo))
+		if (sleeping(philo) || thinking(philo))
 			return (NULL);
-		if (thinking(philo))
-			return (NULL);
-		if ((philo->leads->philos_num % 2) && (philo->id != philo->leads->philos_num))
+		if ((philo->leads->philos_num % 2
+			) && (philo->id != philo->leads->philos_num))
 			usleep(philo->leads->time_to_eat * 1000 + 100);
-		// IF odd: all other sleep here eattime + 100 microseconds
 	}
 	return (NULL);
 }

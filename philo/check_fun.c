@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 01:00:19 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 21:35:55 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/16 01:58:13 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,9 @@ void	ft_message(char *messa, t_philo *ph)
 		pthread_mutex_unlock(&ph->leads->checker);
 		return ;
 	}
-	pthread_mutex_unlock(&ph->leads->checker);
-	if (pthread_mutex_lock(&ph->leads->mess) != 0)
-		error_message("Failed locking print mutex\n");
+	pthread_mutex_lock(&ph->leads->mess);
 	printf("%lld %d %s", time, ph->id, messa);
-	if (pthread_mutex_unlock(&ph->leads->mess) != 0)
-		return ;
+	pthread_mutex_unlock(&ph->leads->mess);
+	pthread_mutex_unlock(&ph->leads->checker);
+	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 23:54:41 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/14 21:59:24 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/16 01:04:15 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ t_lead	*init_data(t_lead *leads, int argc, char **argv)
 	}
 	else
 	{
-		printf(RED"Error: Invalid arguments\n"RST);
 		free(leads);
-		exit(1);
+		leads = NULL;
+		return (NULL);
 	}
 	return (leads);
 }

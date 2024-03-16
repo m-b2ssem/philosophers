@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:13:02 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/15 20:22:58 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/16 01:05:08 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int			check_philo_status(t_philo *philo);
 /* utils functions */
 void		create_program(t_lead *leads);
 void		error_message(char *message);
-void		error_exit(char *message);
 void		ft_mutex_lock_and_unlock(t_mutex *mutex, int check);
 void		*ft_malloc(size_t bytes);
 long long	get_time(void);

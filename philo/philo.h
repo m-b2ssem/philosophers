@@ -6,7 +6,7 @@
 /*   By: bmahdi <bmahdi@student.42vienna.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 22:13:02 by bmahdi            #+#    #+#             */
-/*   Updated: 2024/03/16 15:31:35 by bmahdi           ###   ########.fr       */
+/*   Updated: 2024/03/16 15:33:48 by bmahdi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,27 +82,26 @@ typedef struct s_lead
 
 /* intilazing */
 t_lead		*init_data(t_lead *rules, int argc, char **argv);
-void		ft_message(char *messa, t_philo *ph);
-int			one_philo(t_philo *ph);
 int			check_philo_status_eating(t_philo *philo);
 int			check_philo_status(t_philo *philo);
+void		init_monitor(t_lead *leads, int i);
+int			init_checker_mess(t_lead *leads);
 
 /* utils functions */
 void		create_program(t_lead *leads);
 void		error_message(char *message);
 void		ft_mutex_lock_and_unlock(t_mutex *mutex, int check);
-void		*ft_malloc(size_t bytes);
 long long	get_time(void);
 void		destroy_mutexes(t_lead *leads, t_mutex *forks);
-void		init_monitor(t_lead *leads, int i);
-int			init_checker_mess(t_lead *leads);
+void		ft_message(char *messa, t_philo *ph);
+int			one_philo(t_philo *ph);
 
 /* check arguments */
 bool		ft_valid_argv(char *argv);
 bool		check_argv(int argc, char **argv);
 bool		check_overflow(char *argv);
 
-/*  monitor */
+/*  monitor and rutine */
 void		*ft_monitor(void *argv);
 void		*start_simulation(void *argv);
 
